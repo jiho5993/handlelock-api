@@ -1,10 +1,9 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { HttpStatus } from '@nestjs/common';
+import { isDateString, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import ERROR_CODE from '../exceptions/error-code';
 import { ClientRequestException } from '../exceptions/request.exception';
 
 @ValidatorConstraint({ name: 'isNumber' })
-@Injectable()
 export class IsNumber implements ValidatorConstraintInterface {
   validate(value: any, validationArguments: ValidationArguments): boolean {
     const property = validationArguments.property;
@@ -21,7 +20,6 @@ export class IsNumber implements ValidatorConstraintInterface {
 }
 
 @ValidatorConstraint({ name: 'isString' })
-@Injectable()
 export class IsString implements ValidatorConstraintInterface {
   validate(value: any, validationArguments: ValidationArguments): boolean {
     const property = validationArguments.property;
@@ -40,7 +38,6 @@ export class IsString implements ValidatorConstraintInterface {
 const NUMBER_RULE = /^[0-9]*$/;
 
 @ValidatorConstraint({ name: 'isStringNumber' })
-@Injectable()
 export class IsStringNumber implements ValidatorConstraintInterface {
   validate(value: any, validationArguments: ValidationArguments): boolean {
     const property = validationArguments.property;
@@ -53,5 +50,21 @@ export class IsStringNumber implements ValidatorConstraintInterface {
     }
 
     throw new ClientRequestException(ERROR_CODE.ERR_001_0001, HttpStatus.BAD_REQUEST, { value: property });
+  }
+}
+
+@ValidatorConstraint({ name: 'isDateString' })
+export class IsDateString implements ValidatorConstraintInterface {
+  validate(value: any, validationArguments: ValidationArguments): boolean {
+    const property = validationArguments.property;
+    if (!value) {
+      throw new ClientRequestException(ERROR_CODE.ERR_000_0007, HttpStatus.BAD_REQUEST, { value: property });
+    }
+
+    if (!isDateString(value)) {
+      throw new ClientRequestException(ERROR_CODE.ERR_001_0003, HttpStatus.BAD_REQUEST, { value: property });
+    }
+
+    return true;
   }
 }

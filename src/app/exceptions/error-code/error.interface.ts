@@ -7,6 +7,7 @@
  * 000 : 공통 에러
  * 001 : validation 관련 에러
  * 002 : 계정 관련 에러
+ * 003 : 회원 관련 에러
  *
  *
  * 2. 뒤 4자리 : 상세 에러 내용
@@ -32,6 +33,7 @@ export interface IErrorCode {
   // validation error
   ERR_001_0001: string;
   ERR_001_0002: string;
+  ERR_001_0003: string;
 
   // user error
   ERR_002_0001: string;
@@ -45,4 +47,8 @@ export interface IErrorCode {
   ERR_002_0009: string;
   ERR_002_0010: string;
   ERR_002_0011: string;
+
+  // member error
+  ERR_003_0001: string;
+  ERR_003_0002: string;
 }
