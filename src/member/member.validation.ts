@@ -18,7 +18,7 @@ export class IsMemberName implements ValidatorConstraintInterface {
 @ValidatorConstraint({ name: 'isMemberGender' })
 export class IsMemberGender implements ValidatorConstraintInterface {
   validate(value: any) {
-    if (typeof value === 'string' && Object.values(MemberGender).includes(value as MemberGender)) {
+    if (isEnum(value, MemberGender)) {
       return true;
     }
 
