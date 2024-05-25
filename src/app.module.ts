@@ -10,17 +10,18 @@ import { LoggingInterceptor } from './app/interceptors/logging.interceptor';
 import { TokenTimeLeftInterceptor } from './app/interceptors/token-time-left.interceptor';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { RequestMiddleware } from './app/middlewares/request.middleware';
+import { MemberModule } from './member/member.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
 });
 
 @Module({
-  imports: [RavenModule, TypeOrmRootModule, LoggerModule, HealthModule, SentryModule],
+  imports: [RavenModule, TypeOrmRootModule, LoggerModule, HealthModule, SentryModule, MemberModule],
   providers: [
     { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
-    { provide: APP_INTERCEPTOR, useClass: TokenTimeLeftInterceptor },
+    // { provide: APP_INTERCEPTOR, useClass: TokenTimeLeftInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionFilter },
   ],
 })
