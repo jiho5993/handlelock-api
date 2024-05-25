@@ -30,6 +30,8 @@ const errors: IErrorCode = {
 
   ERR_003_0001: '크루원의 이름은 문자 10자 이하로 입력해주세요.',
   ERR_003_0002: '크루원의 성별은 MALE, FEMALE 중 하나로 입력해주세요.',
+  ERR_003_0003: '크루원 정보를 찾을 수 없습니다.',
+  ERR_003_0004: '크루원의 상태는 {value} 중 하나로 입력해주세요.',
 };
 
 export default errors;

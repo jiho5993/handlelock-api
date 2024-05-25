@@ -20,3 +20,12 @@ export class GetMembersQueryPipe implements PipeTransform {
     return value;
   }
 }
+
+@Injectable()
+export class GetMemberParamPipe implements PipeTransform {
+  transform(value: any) {
+    value.memberIdx = parseInt(value.memberIdx, 10);
+
+    return value;
+  }
+}

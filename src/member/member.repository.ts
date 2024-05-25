@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from '../app/entities/member/member.entity';
-import { DeepPartial, EntityManager, Repository } from 'typeorm';
+import { DeepPartial, EntityManager, FindOptionsWhere, Repository, UpdateResult } from 'typeorm';
 import { GetMembersQueryDto } from './member.dto';
+import { isArray } from 'class-validator';
 
 @Injectable()
 export class MemberRepository {
@@ -10,6 +11,25 @@ export class MemberRepository {
 
   createInstance(member: DeepPartial<Member>): Member {
     return this.repository.create(member);
+  }
+
+  async getMember(where: FindOptionsWhere<Member>, relations?: string[]): Promise<Member | undefined> {
+    const options: any = { where };
+    if (isArray(relations)) {
+      options.relations = relations;
+    }
+    const result = await this.repository.findOne(options);
+    if (result) {
+      return result;
+    }
+    return undefined;
+  }
+
+  async updateMember(where: FindOptionsWhere<Member>, set: DeepPartial<Member>, manager?: EntityManager): Promise<UpdateResult> {
+    if (manager) {
+      return manager.update(Member, where, set);
+    }
+    return this.repository.update(where, set);
   }
 
   async addMember(member: Member, manager?: EntityManager): Promise<Member> {
